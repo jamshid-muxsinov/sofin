@@ -1,77 +1,52 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#071B45" />
-    <meta name="description" content="The original SOFINTRAVEL corporate presentation for international partners." />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Company Presentation — SOFINTRAVEL" />
-    <meta property="og:description" content="The original SOFINTRAVEL corporate presentation for international partners." />
-    <meta property="og:image" content="/images/registan-1200.webp" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="stylesheet" href="/presentation/style.css" />
-    <title>Company Presentation — SOFINTRAVEL</title>
-  </head>
-  <body>
-    <a class="skip-link" href="#presentation-main" id="skip-label">Skip to presentation</a>
-    <header class="presentation-header">
-      <div class="presentation-container presentation-header-inner">
-        <a class="presentation-brand" href="/" id="brand-link" aria-label="SOFINTRAVEL home"><img src="/images/sofintravel-horizontal.png" alt="SOFINTRAVEL" width="610" height="140" /></a>
-        <a class="back-link" href="/" id="back-link"><span aria-hidden="true">←</span><span id="back-label">Back to website</span></a>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#071b45" />
+  <meta name="description" content="Узнайте больше о SOFINTRAVEL и наших путешествиях." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SOFINTRAVEL — о компании" />
+  <meta property="og:image" content="/images/hero-new.webp" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="/presentation/style.css" />
+  <title>SOFINTRAVEL — о компании</title>
+</head>
+<body>
+  <a class="skip-link" href="#slide-viewer" id="skip-label">К материалам</a>
+  <header class="presentation-header">
+    <div class="presentation-container presentation-header-inner">
+      <a class="presentation-brand" href="/" id="brand-link" aria-label="SOFINTRAVEL — на главную"><img src="/images/sofintravel-horizontal.png" alt="SOFINTRAVEL" width="610" height="140" /></a>
+      <a class="back-link" href="/#about" id="back-link"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg><span id="back-label">Вернуться на сайт</span></a>
+    </div>
+  </header>
+  <main class="presentation-container presentation-main">
+    <div class="presentation-intro">
+      <div>
+        <p class="eyebrow">SOFINTRAVEL / AVIATION / TOURISM</p>
+        <h1 id="page-title">О компании</h1>
+        <p class="presentation-description" id="page-description">Паломнические поездки по Узбекистану: маршруты, услуги и партнёры.</p>
       </div>
-    </header>
-    <main class="presentation-container presentation-main" id="presentation-main">
-      <div class="presentation-intro">
-        <div>
-          <p class="eyebrow">SOFINTRAVEL · AVIATION / TOURISM</p>
-          <h1 id="presentation-title">Company Presentation</h1>
-          <p class="presentation-description" id="presentation-description">The original English corporate presentation for partners and clients.</p>
+    </div>
+    <section class="slide-shell" id="slide-viewer" aria-label="Материалы о SOFINTRAVEL">
+      <div class="slide-stage" id="slide-stage" tabindex="0" aria-label="Используйте клавиши со стрелками для переключения страниц.">
+        <img id="slide-image" src="/presentation/ru/1.svg" alt="Страница 1 из 9" width="1440" height="810" fetchpriority="high" />
+        <script>if (new URLSearchParams(location.search).get('lang') === 'en') { document.getElementById('slide-image').src = '/presentation/en/1.svg'; }</script>
+      </div>
+      <div class="slide-controls">
+        <div class="slide-navigation">
+          <button type="button" id="previous" aria-label="Предыдущий слайд"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg></button>
+          <span id="slide-counter" aria-live="polite">01 / 09</span>
+          <button type="button" id="next" aria-label="Следующий слайд"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></button>
         </div>
-        <div class="presentation-actions">
-          <a class="presentation-button presentation-button-primary" href="/documents/Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf" target="_blank" rel="noopener noreferrer"><span id="open-label">Open PDF</span><span aria-hidden="true">↗</span></a>
-          <a class="presentation-button presentation-button-secondary" href="/documents/Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf" download="Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf" id="download-label">Download PDF</a>
+        <div class="slide-utilities">
+          <button type="button" id="play"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path class="play-shape" d="m8 5 11 7-11 7V5Z" /></svg><span>Автопоказ</span></button>
+          <button type="button" id="fullscreen"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M21 16v5h-5" /></svg><span>На весь экран</span></button>
         </div>
       </div>
-      <div class="presentation-viewer">
-        <object data="/documents/Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf#view=FitH" type="application/pdf" aria-label="SOFINTRAVEL company presentation PDF" id="pdf-object">
-          <div class="presentation-fallback">
-            <p id="fallback-label">The PDF viewer is unavailable in this browser.</p>
-            <a href="/documents/Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf" target="_blank" rel="noopener noreferrer" id="fallback-link">Open Company Presentation ↗</a>
-          </div>
-        </object>
-      </div>
-      <div class="presentation-mobile-card">
-        <div class="document-mark" aria-hidden="true">PDF</div>
-        <div>
-          <h2 id="card-title">Company Presentation</h2>
-          <p>Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf</p>
-        </div>
-        <a class="presentation-button presentation-button-primary" href="/documents/Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf" target="_blank" rel="noopener noreferrer" id="mobile-open-label">Open Presentation ↗</a>
-        <a class="presentation-button presentation-button-secondary" href="/documents/Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf" download="Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf" id="mobile-download-label">Download PDF</a>
-      </div>
-    </main>
-    <script>
-      const labels = {
-        ru: { back: 'Вернуться на сайт', title: 'Презентация компании', description: 'Оригинальная корпоративная презентация SOFINTRAVEL на английском языке для партнёров и клиентов.', open: 'Открыть PDF', download: 'Скачать PDF', fallback: 'Встроенный просмотр PDF недоступен в этом браузере.', fallbackLink: 'Открыть презентацию ↗', mobileOpen: 'Открыть презентацию ↗', skip: 'К презентации', pdfLabel: 'Презентация компании SOFINTRAVEL, PDF' },
-        en: { back: 'Back to website', title: 'Company Presentation', description: 'The original English corporate presentation for partners and clients.', open: 'Open PDF', download: 'Download PDF', fallback: 'The PDF viewer is unavailable in this browser.', fallbackLink: 'Open Company Presentation ↗', mobileOpen: 'Open Presentation ↗', skip: 'Skip to presentation', pdfLabel: 'SOFINTRAVEL company presentation PDF' },
-        uz: { back: 'Saytga qaytish', title: 'Kompaniya taqdimoti', description: 'Hamkorlar va mijozlar uchun SOFINTRAVEL kompaniyasining ingliz tilidagi asl taqdimoti.', open: 'PDFni ochish', download: 'PDFni yuklab olish', fallback: 'Bu brauzerda PDFni ko‘rish imkoni yo‘q.', fallbackLink: 'Taqdimotni ochish ↗', mobileOpen: 'Taqdimotni ochish ↗', skip: 'Taqdimotga o‘tish', pdfLabel: 'SOFINTRAVEL kompaniyasi taqdimoti, PDF' }
-      }
-      const selected = new URLSearchParams(window.location.search).get('lang')
-      const locale = selected === 'ru' || selected === 'uz' ? selected : 'en'
-      const copy = labels[locale]
-      document.documentElement.lang = locale
-      document.title = `${copy.title} — SOFINTRAVEL`
-      document.querySelector('meta[name="description"]').content = copy.description
-      document.querySelector('meta[property="og:title"]').content = document.title
-      document.querySelector('meta[property="og:description"]').content = copy.description
-      document.querySelector('meta[property="og:image"]').content = new URL('/images/registan-1200.webp', window.location.origin).href
-      const home = locale === 'ru' ? '/' : `/?lang=${locale}`
-      document.getElementById('brand-link').href = home
-      document.getElementById('brand-link').ariaLabel = `SOFINTRAVEL · ${copy.back}`
-      document.getElementById('back-link').href = `${home}#about`
-      document.getElementById('pdf-object').ariaLabel = copy.pdfLabel
-      for (const [id, value] of Object.entries({ 'back-label': copy.back, 'presentation-title': copy.title, 'presentation-description': copy.description, 'open-label': copy.open, 'download-label': copy.download, 'fallback-label': copy.fallback, 'fallback-link': copy.fallbackLink, 'card-title': copy.title, 'mobile-open-label': copy.mobileOpen, 'mobile-download-label': copy.download, 'skip-label': copy.skip })) document.getElementById(id).textContent = value
-    </script>
-  </body>
+    </section>
+    <p class="slide-hint" id="slide-hint">Листайте стрелками на клавиатуре или включите автопоказ.</p>
+  </main>
+  <script src="/presentation/slideshow.js" defer></script>
+</body>
 </html>

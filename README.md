@@ -20,4 +20,4 @@ The generated static site is in `dist/`.
 ## Content and assets
 
 - Text for all three languages is in `src/content.ts`.
-- Web images in `public/images/` were prepared from the supplied SOFINTRAVEL brand files, presentations and visual reference. `samarkand-portrait.webp` is an illustrative generated image for the destination section.
+- Web images in `public/images/` were prepared from the supplied SOFINTRAVEL brand files, presentations and visual reference. The current page imagery and partner marks come from the supplied SOFINTRAVEL files. The slideshow uses the final RU/EN slide sets in `public/presentation/ru/` and `public/presentation/en/`.

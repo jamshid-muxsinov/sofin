@@ -1,283 +1,86 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { content, type Locale } from './content'
 import './styles.css'
 
-const navSectionIds = ['home', 'about', 'services', 'samarkand', 'partners'] as const
-const sectionIds = ['home', 'about', 'services', 'samarkand', 'process', 'partners', 'presentation'] as const
-const serviceIcons = ['plan', 'plane', 'bed', 'camera', 'shield'] as const
-const destinationIcons = ['landmark', 'book', 'bed', 'route', 'users'] as const
-const partnerLogos = ['qanot', 'silk', 'local'] as const
+const editorial = {
+  ru: { hero: ['Паломнические', 'поездки по', 'Узбекистану'], intro: 'Планируем маршрут', accent: 'и программу.', introText: 'SOFINTRAVEL организует паломнические поездки по Узбекистану для групп.', explore: 'О нас', collection: 'Маршруты в Узбекистане', collectionTitle: 'Узбекистан.\nМаршруты. Сопровождение.', gallery: ['Маршруты по Узбекистану', 'Silk Road Samarkand', 'Размещение и комфорт'], gallerySub: ['Паломнические и культурные поездки', 'Современная туристическая инфраструктура', 'Гостиничная инфраструктура'], serviceNote: 'Программа, размещение, транспорт\nи сопровождение группы.', philosophy: 'Планирование\nи сопровождение.', processNote: 'Планирование и координация поездки для группы.', partnerNote: 'Авиация, размещение и местные услуги.', final: 'Маршрут', finalAccent: 'и программа.', finalText: 'Подробнее о SOFINTRAVEL — в разделе «О нас».', step: 'Этап', menu: 'Меню', close: 'Закрыть', back: 'Наверх' },
+  en: { hero: ['Pilgrimage', 'journeys across', 'Uzbekistan'], intro: 'We plan the route', accent: 'and program.', introText: 'SOFINTRAVEL organizes pilgrimage journeys across Uzbekistan for groups.', explore: 'About us', collection: 'Routes in Uzbekistan', collectionTitle: 'Uzbekistan.\nRoutes. Support.', gallery: ['Routes across Uzbekistan', 'Silk Road Samarkand', 'Accommodation and comfort'], gallerySub: ['Pilgrimage and cultural journeys', 'Modern tourism infrastructure', 'Hotel infrastructure'], serviceNote: 'Programs, accommodation, transport\nand group support.', philosophy: 'Planning\nand support.', processNote: 'Planning and coordinating the journey for each group.', partnerNote: 'Aviation, accommodation and local services.', final: 'Route', finalAccent: 'and program.', finalText: 'Learn more about SOFINTRAVEL in the About us section.', step: 'Stage', menu: 'Menu', close: 'Close', back: 'Back to top' },
+}
+const servicePhotos = ['registan-1200.webp', 'service-transfer.webp', 'service-hospitality.webp', 'service-excursion.webp', 'service-care.webp']
+const galleryPhotos = ['silk-road-aerial.webp', 'silk-road-evening.webp', 'hotel.webp']
 
-function getInitialLocale(): Locale {
-  const value = new URLSearchParams(window.location.search).get('lang')
-  return value === 'en' || value === 'uz' ? value : 'ru'
+function ArrowIcon() {
+  return <svg className="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M9 5h10v10" /></svg>
 }
 
-type IconName = 'plan' | 'plane' | 'bed' | 'camera' | 'shield' | 'users' | 'landmark' | 'book' | 'route'
-
-function Icon({ name }: { name: IconName }) {
-  const paths = {
-    plan: <><rect x="5" y="5" width="18" height="21" rx="1" /><path d="M9 3v5m10-5v5M5 11h18M9 16h10m-10 4h10" /></>,
-    plane: <><path d="M26 3 3 14l9 2 2 9L26 3Z" /><path d="m12 16 14-13M8 12l-3-5m12 12 5 3" /></>,
-    bed: <><path d="M3 22V9m22 13V9M3 15h22v7H3zM6 15v-5h7v5m2 0v-5h7v5M3 22v3m22-3v3" /></>,
-    camera: <><path d="M4 9h5l2-3h6l2 3h5v16H4z" /><circle cx="14" cy="17" r="5" /><path d="M21 12h1" /></>,
-    shield: <><path d="M14 2 24 6v8c0 7-4 10-10 13C8 24 4 21 4 14V6z" /><path d="m9 14 4 4 7-8" /></>,
-    users: <><circle cx="10" cy="8" r="3" /><circle cx="19" cy="8" r="3" /><path d="M3 24v-6c0-3 3-5 7-5s7 2 7 5v6M14 15c1.3-1.3 3-2 5-2 4 0 7 2 7 5v6" /></>,
-    landmark: <><path d="m14 3 11 8H3zM5 12v12m6-12v12m6-12v12m6-12v12M3 25h22" /></>,
-    book: <><path d="M14 6c-4-3-8-3-11-2v19c4-1 8-1 11 2 3-3 7-3 11-2V4c-3-1-7-1-11 2Zm0 0v19" /></>,
-    route: <><path d="M4 6h7l3 4h10v14H4zM8 17h4l3-3 5 5" /><circle cx="9" cy="10" r="1" /><circle cx="20" cy="19" r="1" /></>,
-  }
-  return <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>
+function ArrowDownIcon() {
+  return <svg className="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 7 7 7-7" /></svg>
 }
 
-function Arrow() {
-  return <span className="arrow" aria-hidden="true">→</span>
-}
-
-function LanguageSwitcher({ locale, onChange }: { locale: Locale; onChange: (locale: Locale) => void }) {
-  const detailsRef = useRef<HTMLDetailsElement>(null)
-  return (
-    <details className="language-switcher" ref={detailsRef}>
-      <summary aria-label={content[locale].languageLabel}>{locale.toUpperCase()}<span aria-hidden="true">⌄</span></summary>
-      <div className="language-options">
-        {(['ru', 'en', 'uz'] as const).map((code) => (
-          <button type="button" key={code} aria-label={{ ru: 'Русский', en: 'English', uz: 'O‘zbek' }[code]} aria-current={locale === code ? 'true' : undefined} onClick={() => { detailsRef.current?.removeAttribute('open'); onChange(code) }}>{code.toUpperCase()}</button>
-        ))}
-      </div>
-    </details>
-  )
+function ArrowUpIcon() {
+  return <svg className="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 7-7 7 7" /></svg>
 }
 
 function App() {
-  const [locale, setLocale] = useState<Locale>(getInitialLocale)
+  const [locale, setLocale] = useState<Locale>(() => { const lang = new URLSearchParams(location.search).get('lang'); return lang === 'en' ? 'en' : 'ru' })
   const [menuOpen, setMenuOpen] = useState(false)
+  const [service, setService] = useState(0)
   const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState<(typeof sectionIds)[number]>('home')
-  const t = content[locale]
-
+  const t = content[locale], e = editorial[locale]
+  const aboutUrl = `/presentation/index.html?lang=${locale}`
   useEffect(() => {
     document.documentElement.lang = locale
-    document.title = `SOFINTRAVEL — ${locale === 'ru' ? 'паломнические и культурные поездки по Узбекистану' : locale === 'en' ? 'pilgrimage and cultural journeys in Uzbekistan' : 'O‘zbekistonda ziyorat va madaniy sayohatlar'}`
-    const description = document.querySelector<HTMLMetaElement>('meta[name="description"]')
-    const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]')
-    const ogDescription = document.querySelector<HTMLMetaElement>('meta[property="og:description"]')
-    const ogLocale = document.querySelector<HTMLMetaElement>('meta[property="og:locale"]')
-    const ogImage = document.querySelector<HTMLMetaElement>('meta[property="og:image"]')
-    if (description) description.content = content[locale].heroText
-    if (ogTitle) ogTitle.content = document.title
-    if (ogDescription) ogDescription.content = content[locale].heroText
-    if (ogLocale) ogLocale.content = locale === 'ru' ? 'ru_RU' : locale === 'en' ? 'en_US' : 'uz_UZ'
-    if (ogImage) ogImage.content = new URL('/images/registan-1200.webp', window.location.origin).href
-    const url = new URL(window.location.href)
-    if (locale === 'ru') url.searchParams.delete('lang')
-    else url.searchParams.set('lang', locale)
-    window.history.replaceState(null, '', url)
-    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
-    if (canonical) canonical.href = url.href.split('#')[0]
-    for (const code of ['ru', 'en', 'uz'] as const) {
-      let alternate = document.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${code}"]`)
-      if (!alternate) {
-        alternate = document.createElement('link')
-        alternate.rel = 'alternate'
-        alternate.hreflang = code
-        document.head.append(alternate)
-      }
-      const alternateUrl = new URL(window.location.origin + window.location.pathname)
-      if (code !== 'ru') alternateUrl.searchParams.set('lang', code)
-      alternate.href = alternateUrl.href
-    }
-  }, [locale])
-
+    document.title = 'SOFINTRAVEL — ' + t.heroTitle.replace('\n', ' ')
+    const url = new URL(location.href); locale === 'ru' ? url.searchParams.delete('lang') : url.searchParams.set('lang', locale); history.replaceState(null, '', url)
+    document.querySelector('meta[name="description"]')?.setAttribute('content', t.heroText)
+  }, [locale, t.heroText, t.heroTitle])
   useEffect(() => {
-    const updateHeader = () => setScrolled(window.scrollY > 32)
-    updateHeader()
-    window.addEventListener('scroll', updateHeader, { passive: true })
-    return () => window.removeEventListener('scroll', updateHeader)
-  }, [])
-
-  useEffect(() => {
-    const sections = sectionIds.map((id) => document.getElementById(id)).filter((section): section is HTMLElement => Boolean(section))
     let frame = 0
-    const updateActiveSection = () => {
+    const paint = () => {
       frame = 0
-      const marker = Math.min(window.innerHeight * .35, 300)
-      let current = sections[0]
-      for (const section of sections) {
-        if (section.getBoundingClientRect().top > marker) break
-        current = section
-      }
-      if (current) setActiveSection(current.id as (typeof sectionIds)[number])
+      setScrolled(scrollY > 45)
     }
-    const scheduleUpdate = () => {
-      if (!frame) frame = window.requestAnimationFrame(updateActiveSection)
-    }
-    updateActiveSection()
-    window.addEventListener('scroll', scheduleUpdate, { passive: true })
-    window.addEventListener('resize', scheduleUpdate)
-    return () => {
-      window.cancelAnimationFrame(frame)
-      window.removeEventListener('scroll', scheduleUpdate)
-      window.removeEventListener('resize', scheduleUpdate)
-    }
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(paint) }
+    paint(); addEventListener('scroll', schedule, { passive: true })
+    return () => { cancelAnimationFrame(frame); removeEventListener('scroll', schedule) }
   }, [])
-
-  useLayoutEffect(() => {
-    const elements = document.querySelectorAll<HTMLElement>('.reveal')
-    const canAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window
-    document.documentElement.classList.toggle('motion-ready', canAnimate)
-    if (!canAnimate) {
-      elements.forEach((element) => element.classList.add('is-visible'))
-      return
-    }
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        entry.target.classList.toggle('is-visible', entry.isIntersecting)
-      })
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 })
-    elements.forEach((element) => observer.observe(element))
-    return () => observer.disconnect()
-  }, [locale])
-
-  useEffect(() => {
-    if (!menuOpen) return
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMenuOpen(false)
-    }
-    window.addEventListener('keydown', closeOnEscape)
-    return () => window.removeEventListener('keydown', closeOnEscape)
-  }, [menuOpen])
-
-  const changeLocale = (nextLocale: Locale) => {
-    setLocale(nextLocale)
-    setMenuOpen(false)
-  }
-
-  return (
-    <>
-      <a className="skip-link" href="#main">{locale === 'ru' ? 'К содержимому' : locale === 'en' ? 'Skip to content' : 'Asosiy mazmunga o‘tish'}</a>
-      <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
-        <div className="container header-inner">
-          <a className="brand" href="#home" onClick={() => setMenuOpen(false)} aria-label="SOFINTRAVEL">
-            <img src="/images/sofintravel-horizontal.png" alt="SOFINTRAVEL" width="610" height="140" />
-          </a>
-          <nav className={`site-nav ${menuOpen ? 'is-open' : ''}`} id="site-navigation" aria-label={locale === 'ru' ? 'Основная навигация' : locale === 'en' ? 'Main navigation' : 'Asosiy navigatsiya'}>
-            {navSectionIds.map((id, index) => <a href={`#${id}`} key={id} aria-current={activeSection === id ? 'location' : undefined} onClick={() => setMenuOpen(false)}>{t.nav[index]}</a>)}
-            <a className="nav-presentation" href={`/presentation/index.html?lang=${locale}`} onClick={() => setMenuOpen(false)}>{t.nav[5]}</a>
-          </nav>
-          <div className="header-actions">
-            <LanguageSwitcher locale={locale} onChange={changeLocale} />
-            <a className="header-presentation" href={`/presentation/index.html?lang=${locale}`}>{t.nav[5]}<span aria-hidden="true">↗</span></a>
-          </div>
-          <button className={`menu-button ${menuOpen ? 'is-open' : ''}`} type="button" aria-label={menuOpen ? t.menuClose : t.menuOpen} aria-expanded={menuOpen} aria-controls="site-navigation" onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>
-        </div>
-      </header>
-
-      <main id="main">
-        <section className="hero" id="home" aria-labelledby="hero-title">
-          <picture className="hero-media">
-            <source media="(max-width: 700px)" srcSet="/images/registan-640.webp 640w, /images/registan-1200.webp 1200w" sizes="100vw" />
-            <img src="/images/registan-1200.webp" alt={locale === 'ru' ? 'Архитектура площади Регистан в Самарканде' : locale === 'en' ? 'Architecture of Registan Square in Samarkand' : 'Samarqanddagi Registon maydoni me’morchiligi'} fetchPriority="high" />
-          </picture>
-          <div className="container hero-inner">
-            <div className="hero-copy">
-              <p className="eyebrow">{t.heroEyebrow}</p>
-              <h1 id="hero-title">{t.heroTitle}</h1>
-              <p className="hero-intro">{t.heroText}</p>
-              <div className="hero-links">
-                <a className="button button-gold" href="#services">{t.heroPrimary}<Arrow /></a>
-                <a className="button button-outline" href="#about">{t.heroSecondary}<Arrow /></a>
-              </div>
-            </div>
-            <div className="hero-offer">{t.heroServices.map((item) => <span key={item}>{item}</span>)}</div>
-          </div>
-          <span className="hero-caption">{t.heroCaption}</span>
-          <a className="hero-scroll" href="#about">{t.scrollAction}<span aria-hidden="true">↓</span></a>
-        </section>
-
-        <section className="about-section" id="about" aria-labelledby="about-title">
-          <div className="container about-grid reveal">
-            <div className="about-identity">
-              <p className="eyebrow">01 / {t.aboutEyebrow}</p>
-              <h2 id="about-title">{t.aboutTitle}</h2>
-              <p className="about-tagline">{t.aboutTagline}</p>
-            </div>
-            <div className="about-story">
-              <p className="about-description">{t.aboutText}</p>
-              <a className="about-presentation" href={`/presentation/index.html?lang=${locale}`}>{t.presentationAction}<span aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-        </section>
-
-        <section className="services-section" id="services" aria-labelledby="services-title">
-          <div className="container services-layout">
-            <div className="services-heading">
-              <p className="eyebrow">02 / {t.servicesEyebrow}</p><h2 id="services-title">{t.servicesTitle}</h2>
-            </div>
-            <div className="services-grid">
-              {t.services.map((service, index) => (
-                <article className="service-card reveal" key={service.title}>
-                  <span className="service-number">{String(index + 1).padStart(2, '0')}</span>
-                  <div><h3>{service.title}</h3><p>{service.text}</p></div>
-                  <Icon name={serviceIcons[index]} />
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="destination-section" id="samarkand" aria-labelledby="destination-title">
-          <picture className="destination-photo reveal image-reveal">
-            <img src="/images/samarkand-portrait.webp" alt={locale === 'ru' ? 'Мечети и медресе Самарканда' : locale === 'en' ? 'Mosques and madrasahs of Samarkand' : 'Samarqand masjidlari va madrasalari'} loading="lazy" />
-          </picture>
-          <div className="destination-copy reveal">
-            <p className="eyebrow">03 / {t.destinationEyebrow}</p>
-            <h2 id="destination-title">{t.destinationTitle}</h2>
-            <p>{t.destinationText}</p>
-            <ul className="destination-points">
-              {t.destinationPoints.map((point, index) => <li key={point}><Icon name={destinationIcons[index]} /><span>{point}</span></li>)}
-            </ul>
-          </div>
-        </section>
-
-        <section className="process-section" id="process" aria-labelledby="process-title">
-          <div className="container process-layout">
-            <div className="process-heading reveal"><p className="eyebrow">04 / {t.processEyebrow}</p><h2 id="process-title">{t.processTitle}</h2></div>
-            <div className="process-list">
-              {t.process.map((item, index) => <article className="process-item reveal" key={item.title}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></article>)}
-            </div>
-          </div>
-        </section>
-
-        <section className="partners-section" id="partners" aria-labelledby="partners-title">
-          <div className="container partners-grid">
-            <div className="partners-heading reveal"><p className="eyebrow">05 / {t.partnersEyebrow}</p><h2 id="partners-title">{t.partnersTitle}</h2></div>
-            <div className="partners-cards">
-              {t.partners.map((partner, index) => <article className="partner-card reveal" key={partner.name}><img src={`/images/partner-${partnerLogos[index]}.webp`} alt="" loading="lazy" /><div><h3>{partner.name}</h3><p>{partner.role}</p></div></article>)}
-            </div>
-          </div>
-        </section>
-
-        <section className="final-cta" id="presentation" aria-labelledby="cta-title">
-          <div className="container cta-grid reveal">
-            <h2 id="cta-title">{t.ctaTitle}</h2>
-            <div className="cta-actions"><a className="button button-gold" href={`/presentation/index.html?lang=${locale}`}>{t.presentationAction}<span aria-hidden="true">↗</span></a></div>
-          </div>
-          <img className="cta-art reveal" src="/images/cta-line-art.webp" alt="" loading="lazy" />
-        </section>
-      </main>
-
-      <footer className="site-footer">
-        <div className="container footer-main">
-          <div className="footer-identity"><a className="footer-brand" href="#home"><img src="/images/sofintravel-horizontal.png" alt="SOFINTRAVEL" width="610" height="140" /></a><span>© {new Date().getFullYear()} SOFINTRAVEL. {t.copyright}</span></div>
-          <nav aria-label={locale === 'ru' ? 'Навигация в подвале' : locale === 'en' ? 'Footer navigation' : 'Pastki navigatsiya'}>
-            {navSectionIds.map((id, index) => <a href={`#${id}`} key={id}>{t.nav[index]}</a>)}
-            <a href={`/presentation/index.html?lang=${locale}`}>{t.nav[5]}</a>
-          </nav>
-        </div>
-      </footer>
-    </>
-  )
+  useEffect(() => { const close = (ev: KeyboardEvent) => { if (ev.key === 'Escape') setMenuOpen(false) }; addEventListener('keydown', close); return () => removeEventListener('keydown', close) }, [])
+  return <div className="site">
+    <a className="skip-link" href="#main">{t.heroPrimary}</a>
+    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+      <a className="brand" href="#home" aria-label="SOFINTRAVEL"><img src="/images/sofintravel-horizontal.png" alt="SOFINTRAVEL" width="610" height="140" /></a>
+      <nav className={menuOpen ? 'navigation open' : 'navigation'} id="navigation" aria-label={e.menu}>
+        <a href="#about" onClick={() => setMenuOpen(false)}>{t.nav[1]}</a><a href="#services" onClick={() => setMenuOpen(false)}>{t.nav[2]}</a><a href="#partners" onClick={() => setMenuOpen(false)}>{t.nav[3]}</a>
+      </nav>
+      <div className="header-tools"><div className="language-switch" role="group" aria-label={t.languageLabel}><button type="button" aria-pressed={locale === 'ru'} onClick={() => { setLocale('ru'); setMenuOpen(false) }}>RU</button><button type="button" aria-pressed={locale === 'en'} onClick={() => { setLocale('en'); setMenuOpen(false) }}>EN</button></div><a className="header-about" href={aboutUrl}>{t.presentationAction}<ArrowIcon /></a><button className="menu-toggle" aria-label={menuOpen ? e.close : e.menu} aria-expanded={menuOpen} aria-controls="navigation" onClick={() => setMenuOpen(!menuOpen)}><span className={`menu-icon ${menuOpen ? 'open' : ''}`} aria-hidden="true" /></button></div>
+    </header>
+    <main id="main">
+      <section className="hero" id="home">
+        <div className="hero-photo"><img src="/images/journey-art.webp" alt={locale === 'ru' ? 'Караван в пустыне у Регистана в Самарканде' : 'Caravan in the desert by Registan in Samarkand'} fetchPriority="high" /></div>
+        <div className="hero-shade" />
+        <div className="hero-topline"><span>SOFINTRAVEL / AVIATION & TOURISM</span></div>
+        <div className="hero-content"><p className="eyebrow light">{t.heroEyebrow}</p><h1>{e.hero.map((line,i) => <span className="title-mask" key={line}><span className={i === 2 ? 'hero-italic' : ''}>{line}</span></span>)}</h1><div className="hero-bottom-copy"><p>{t.heroText}</p><a href="#about" className="round-link" aria-label={t.heroSecondary}><ArrowDownIcon /></a></div></div>
+        <div className="hero-footer"><a href="#about">{t.scrollAction}<span className="scroll-line" /></a></div>
+      </section>
+      <section className="manifesto section-pad" id="about">
+        <div className="section-label" data-reveal><span>01 / {t.aboutEyebrow}</span></div>
+        <div className="manifesto-heading" data-reveal><h2>{e.intro}<br/><em>{e.accent}</em></h2></div>
+        <div className="manifesto-bottom"><div className="arch-photo" data-reveal><img src="/images/samarkand-portrait.webp" alt={locale === 'ru' ? 'Посетители на площади Регистан в Самарканде' : 'Visitors at Registan Square in Samarkand'} loading="lazy"/></div><div className="manifesto-copy" data-reveal><p className="large-copy">{e.introText}</p><p>{t.aboutText}</p><a className="text-link" href={aboutUrl}>{e.explore}<ArrowIcon /></a></div></div>
+      </section>
+      <section className="services section-pad" id="services">
+        <div className="section-label" data-reveal><span>02 / {t.servicesEyebrow}</span></div>
+        <div className="services-title" data-reveal><h2>{t.servicesTitle}</h2><p>{e.serviceNote}</p></div>
+        <div className="services-layout"><div className="service-visual" data-reveal><img key={service} src={`/images/${servicePhotos[service]}`} alt={t.services[service].title} loading="lazy"/></div><div className="service-list">{t.services.map((item,i) => <article className={`service-item ${service===i ? 'active' : ''}`} key={item.title}><button onClick={() => setService(i)} aria-expanded={service===i} aria-controls={`service-${i}`}><span className="service-num">0{i+1}</span><h3>{item.title}</h3><span className="service-symbol" aria-hidden="true" /></button><div className="service-detail" id={`service-${i}`} hidden={service!==i}><p>{item.text}</p></div></article>)}</div></div>
+      </section>
+      <section className="journey-gallery" aria-label={e.collection}>
+        <div className="gallery-sticky"><div className="gallery-heading"><div><p className="eyebrow light">03 / {e.collection}</p><h2>{e.collectionTitle}</h2></div></div><div className="gallery-track">{galleryPhotos.map((photo,i)=><figure key={photo}><div className="gallery-photo"><img src={`/images/${photo}`} alt={e.gallery[i]} loading="lazy"/></div><figcaption><h3>{e.gallery[i]}</h3><p>{e.gallerySub[i]}</p></figcaption></figure>)}</div></div>
+      </section>
+      <section className="care section-pad" id="process"><div className="section-label" data-reveal><span>04 / {t.processEyebrow}</span></div><div className="care-heading" data-reveal><h2>{e.philosophy}</h2><p>{e.processNote}</p></div><div className="care-grid">{t.process.map((item,i)=><article data-reveal key={item.title}><span className="care-number">0{i+1}<small>/{e.step}</small></span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div></section>
+      <section className="partners section-pad" id="partners"><div className="section-label" data-reveal><span>05 / {t.partnersEyebrow}</span></div><div className="partner-heading" data-reveal><h2>{t.partnersTitle}</h2><p>{e.partnerNote}</p></div><div className="partner-list">{t.partners.map((partner,i)=><article data-reveal key={partner.name}><span className="partner-number">0{i+1}</span><div className="partner-logo"><img src={`/images/partner-${['qanot-new', 'silk-new', 'local'][i]}.webp`} alt={partner.name} loading="lazy" /></div><div><h3>{partner.name}</h3><p>{partner.role}</p></div></article>)}</div></section>
+      <section className="finale"><p className="eyebrow light" data-reveal>SOFINTRAVEL / AVIATION / TOURISM</p><h2 data-reveal>{e.final}<br/><em>{e.finalAccent}</em></h2><div className="finale-action" data-reveal><p>{e.finalText}</p><a className="round-link" href={aboutUrl} aria-label={t.presentationAction}><ArrowIcon /><small>{t.presentationAction}</small></a></div><img className="architecture" src="/images/architecture-gold.png" alt="" loading="lazy" /></section>
+    </main>
+    <footer className="footer"><div className="footer-top"><a href="#home"><img src="/images/sofintravel-horizontal.png" alt="SOFINTRAVEL" width="610" height="140"/></a><a href="#home" className="text-link">{e.back}<ArrowUpIcon /></a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} SOFINTRAVEL. {t.copyright}</span><a href={aboutUrl}>{t.presentationAction}<ArrowIcon /></a></div></footer>
+  </div>
 }
-
 createRoot(document.getElementById('root')!).render(<App />)

@@ -1,0 +1,98 @@
+@font-face{font-family:'Noto Sans Local';src:url('/fonts/NotoSans-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+
+@font-face{font-family:'Noto Sans Local';src:url('/fonts/NotoSans-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+
+@font-face{font-family:'Noto Serif Local';src:url('/fonts/NotoSerif-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+
+:root{font-family:'Noto Sans Local',sans-serif;color:#071b45;background:#eeeae1;font-synthesis:none;-webkit-font-smoothing:antialiased}
+
+*,*::before,*::after{box-sizing:border-box}
+
+body{margin:0;min-width:320px}
+
+a{color:inherit;text-decoration:none}
+
+a:focus-visible,button:focus-visible,.slide-stage:focus-visible{outline:2px solid #92784c;outline-offset:3px}
+
+button{font:inherit;cursor:pointer}
+
+p,h1{margin:0}
+
+.presentation-container{width:min(100% - 48px,1124px);margin-inline:auto}
+
+.skip-link{position:fixed;top:-60px;left:24px;z-index:10;padding:10px 14px;color:#fff;background:#071b45}
+
+.skip-link:focus{top:10px}
+
+.presentation-header{height:70px;border-bottom:1px solid #e4e5e7;background:#fff}
+
+.presentation-header-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+
+.presentation-brand{display:block;width:185px;flex:none}
+
+.presentation-brand img{display:block;width:100%;height:auto}
+
+.back-link{display:inline-flex;align-items:center;gap:9px;min-height:44px;font-size:13px;font-weight:500}
+
+.back-link:hover{color:#92784c}
+
+.presentation-main{padding-block:50px 60px}
+
+.presentation-intro{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:30px}
+
+.eyebrow{margin-bottom:11px;color:#786039;font-size:10px;font-weight:500;letter-spacing:.2em}
+
+h1{font-family:'Noto Serif Local',Georgia,serif;font-size:clamp(32px,4vw,52px);font-weight:400;line-height:1.12}
+
+.presentation-description{margin-top:12px;color:#48566c;font-size:14px;line-height:1.5}
+
+.presentation-button{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 20px;border:1px solid #abb2b9;border-radius:24px;background:#fff;font-size:12px;font-weight:500;white-space:nowrap;transition:background .2s ease}
+
+.presentation-button:hover{background:#f1eadf}
+
+.slide-shell{overflow:hidden;border:1px solid #d7dadd;border-radius:12px;background:#071b45;box-shadow:0 20px 50px rgba(7,27,69,.13)}
+
+.slide-stage{display:grid;place-items:center;aspect-ratio:16/9;background:#071b45}
+
+.slide-stage img{display:block;width:100%;height:100%;object-fit:contain}
+
+.slide-controls{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:70px;padding:12px 20px;background:#fff}
+
+.slide-navigation,.slide-utilities{display:flex;align-items:center;gap:12px}
+
+.slide-navigation button,.slide-utilities button{min-width:42px;min-height:42px;padding:0 11px;border:1px solid #d8dce0;border-radius:22px;background:#fff;color:#071b45;transition:background .2s ease,border-color .2s ease}
+
+.slide-navigation button{font-size:20px}
+
+.slide-navigation button:hover,.slide-utilities button:hover{border-color:#c5a46d;background:#f8f3e9}
+
+.slide-navigation span{min-width:68px;text-align:center;font-size:13px;font-weight:500;font-variant-numeric:tabular-nums}
+
+.slide-utilities button{display:inline-flex;align-items:center;gap:9px;font-size:12px}
+
+.slide-hint{margin-top:15px;color:#596579;font-size:12px;text-align:center}
+
+.slide-shell:fullscreen{display:flex;flex-direction:column;justify-content:center;border:0;border-radius:0}
+
+.slide-shell:fullscreen .slide-stage{min-height:0;flex:1;aspect-ratio:auto}
+
+.slide-shell:fullscreen .slide-stage img{width:100%;height:100%;object-fit:contain}
+
+@media(max-width:700px){.presentation-container{width:calc(100% - 32px)}
+.presentation-header{height:60px}
+.presentation-brand{width:148px}
+.back-link{font-size:11px}
+.presentation-main{padding-block:35px}
+.presentation-intro{align-items:start;flex-direction:column;gap:20px}
+.slide-controls{flex-wrap:wrap;justify-content:center;gap:10px;padding:12px}
+.slide-navigation,.slide-utilities{justify-content:center}
+.slide-utilities button{min-height:38px;font-size:11px}
+.slide-hint{line-height:1.5}
+}
+
+@media(max-width:380px){.slide-controls{flex-direction:column}
+.slide-utilities{flex-wrap:wrap}
+}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}
+}

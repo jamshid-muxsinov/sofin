@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#071b45" />
+  <meta name="description" content="Узнайте больше о SOFINTRAVEL и наших путешествиях." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SOFINTRAVEL — о компании" />
+  <meta property="og:image" content="/images/hero-new.webp" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="/presentation/style.css" />
+  <title>SOFINTRAVEL — о компании</title>
+</head>
+<body>
+  <a class="skip-link" href="#slide-viewer" id="skip-label">К материалам</a>
+  <header class="presentation-header">
+    <div class="presentation-container presentation-header-inner">
+      <a class="presentation-brand" href="/" id="brand-link" aria-label="SOFINTRAVEL — на главную"><img src="/images/sofintravel-horizontal.png" alt="SOFINTRAVEL" width="610" height="140" /></a>
+      <a class="back-link" href="/#about" id="back-link"><span aria-hidden="true">←</span><span id="back-label">Вернуться на сайт</span></a>
+    </div>
+  </header>
+  <main class="presentation-container presentation-main">
+    <div class="presentation-intro">
+      <div>
+        <p class="eyebrow">SOFINTRAVEL · AVIATION / TOURISM</p>
+        <h1 id="page-title">О компании</h1>
+        <p class="presentation-description" id="page-description">Путешествия, партнёрство и внимание к каждому этапу поездки.</p>
+      </div>
+      <a class="presentation-button presentation-button-secondary" href="/documents/Presentation_SOFINTRAVEL_PATIHINDO_EN.pdf" download="SOFINTRAVEL.pdf" id="download-label">Скачать PDF ↓</a>
+    </div>
+    <section class="slide-shell" id="slide-viewer" aria-label="Материалы о SOFINTRAVEL">
+      <div class="slide-stage" id="slide-stage" tabindex="0" aria-label="Используйте клавиши со стрелками для переключения страниц.">
+        <img id="slide-image" src="/presentation/slides/slide-01.jpg" alt="Страница 1 из 10" width="1280" height="720" />
+      </div>
+      <div class="slide-controls">
+        <div class="slide-navigation">
+          <button type="button" id="previous" aria-label="Предыдущий слайд">←</button>
+          <span id="slide-counter" aria-live="polite">01 / 10</span>
+          <button type="button" id="next" aria-label="Следующий слайд">→</button>
+        </div>
+        <div class="slide-utilities">
+          <button type="button" id="play">▶ <span>Автопоказ</span></button>
+          <button type="button" id="fullscreen">⛶ <span>На весь экран</span></button>
+        </div>
+      </div>
+    </section>
+    <p class="slide-hint" id="slide-hint">Листайте стрелками на клавиатуре или включите автопоказ.</p>
+  </main>
+  <script src="/presentation/slideshow.js" defer></script>
+</body>
+</html>
