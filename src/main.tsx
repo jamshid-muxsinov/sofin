@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { content, type Locale } from './content'
 import './styles.css'
 
-const navSectionIds = ['home', 'about', 'services', 'samarkand', 'partners'] as const
-const sectionIds = ['home', 'about', 'services', 'samarkand', 'process', 'partners', 'presentation'] as const
+const navSectionIds = ['home', 'about', 'services', 'destinations', 'partners'] as const
+const sectionIds = ['home', 'about', 'services', 'destinations', 'process', 'partners', 'presentation'] as const
 const serviceIcons = ['plan', 'route', 'bed', 'landmark', 'shield'] as const
 const destinationIcons = ['landmark', 'book', 'bed', 'route', 'users'] as const
 const partnerLogos = ['qanot-new', 'silk-new', 'local'] as const
@@ -55,7 +55,7 @@ function App() {
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState<(typeof sectionIds)[number]>('home')
   const t = content[locale]
-  const navLabels = [t.nav[0], t.nav[1], t.nav[2], locale === 'ru' ? 'Самарканд' : 'Samarkand', t.nav[3]]
+  const navLabels = t.nav
   const aboutUrl = `/presentation/index.html?lang=${locale}`
 
   useEffect(() => {
@@ -215,7 +215,7 @@ function App() {
           </div>
         </section>
 
-        <section className="destination-section" id="samarkand" aria-labelledby="destination-title">
+        <section className="destination-section" id="destinations" aria-labelledby="destination-title">
           <picture className="destination-photo reveal image-reveal">
             <img src="/images/samarkand-portrait.webp" alt={locale === 'ru' ? 'Мечети и медресе Самарканда' : 'Mosques and madrasahs of Samarkand'} loading="lazy" />
           </picture>

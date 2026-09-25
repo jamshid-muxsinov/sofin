@@ -1,6 +1,6 @@
 export const content = {
   ru: {
-    nav: ['Главная', 'О нас', 'Услуги', 'Партнёры'],
+    nav: ['Главная', 'О нас', 'Услуги', 'Направления', 'Партнёры'],
     languageLabel: 'Язык',
     menuOpen: 'Открыть меню',
     menuClose: 'Закрыть меню',
@@ -49,7 +49,7 @@ export const content = {
     copyright: 'Все права защищены.',
   },
   en: {
-    nav: ['Home', 'About', 'Services', 'Partners'],
+    nav: ['Home', 'About', 'Services', 'Destinations', 'Partners'],
     languageLabel: 'Language',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
