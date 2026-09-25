@@ -42,7 +42,7 @@ export const content = {
     partnersTitle: '',
     partners: [
       { name: 'Qanot Sharq', showName: false, role: 'Авиационная логистика и групповые перевозки' },
-      { name: 'Узбекистан', showName: true, role: 'Размещение и туристическая инфраструктура' },
+      { name: 'Узбекистан', showName: false, role: 'Размещение и туристическая инфраструктура' },
       { name: 'Локальная сеть', showName: true, role: 'Гиды, транспорт и сервис в Узбекистане' },
     ],
     ctaTitle: 'Путешествия объединяют людей,\nкультуры и возможности',
@@ -91,7 +91,7 @@ export const content = {
     partnersTitle: 'Partners by service area',
     partners: [
       { name: 'Qanot Sharq', showName: false, role: 'Aviation logistics and group transportation' },
-      { name: 'Uzbekistan', showName: true, role: 'Accommodation and tourism infrastructure' },
+      { name: 'Uzbekistan', showName: false, role: 'Accommodation and tourism infrastructure' },
       { name: 'Local Network', showName: true, role: 'Guides, transport and services across Uzbekistan' },
     ],
     ctaTitle: 'Travel connects people,\ncultures and possibilities',
