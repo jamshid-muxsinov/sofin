@@ -5,9 +5,9 @@ import './styles.css'
 
 const navSectionIds = ['home', 'about', 'services', 'samarkand', 'partners'] as const
 const sectionIds = ['home', 'about', 'services', 'samarkand', 'process', 'partners', 'presentation'] as const
-const serviceIcons = ['plan', 'plane', 'bed', 'camera', 'shield'] as const
+const serviceIcons = ['plan', 'route', 'bed', 'landmark', 'shield'] as const
 const destinationIcons = ['landmark', 'book', 'bed', 'route', 'users'] as const
-const partnerLogos = ['qanot', 'silk', 'local'] as const
+const partnerLogos = ['qanot-new', 'silk-new', 'local'] as const
 
 function getInitialLocale(): Locale {
   const value = new URLSearchParams(window.location.search).get('lang')
@@ -172,7 +172,7 @@ function App() {
             <div className="hero-copy">
               <p className="eyebrow">{t.heroEyebrow}</p>
               <h1 id="hero-title">{t.heroTitle}</h1>
-              <p className="hero-intro">{t.heroText}</p>
+              {t.heroText && <p className="hero-intro">{t.heroText}</p>}
               <div className="hero-links">
                 <a className="button button-gold" href="#services">{t.heroPrimary}<Arrow /></a>
                 <a className="button button-outline" href="#about">{t.heroSecondary}<Arrow /></a>
@@ -238,11 +238,14 @@ function App() {
           </div>
         </section>
 
-        <section className="partners-section" id="partners" aria-labelledby="partners-title">
+        <section className="partners-section" id="partners" aria-labelledby={t.partnersTitle ? 'partners-title' : undefined}>
           <div className="container partners-grid">
-            <div className="partners-heading reveal"><p className="eyebrow">05 / {t.partnersEyebrow}</p><h2 id="partners-title">{t.partnersTitle}</h2></div>
+            <div className="partners-heading reveal"><p className="eyebrow">05 / {t.partnersEyebrow}</p>{t.partnersTitle && <h2 id="partners-title">{t.partnersTitle}</h2>}</div>
             <div className="partners-cards">
-              {t.partners.map((partner, index) => <article className="partner-card reveal" key={partner.name}><img src={`/images/partner-${partnerLogos[index]}.webp`} alt="" loading="lazy" /><div><h3>{partner.name}</h3><p>{partner.role}</p></div></article>)}
+              {t.partners.map((partner, index) => {
+                const isTextOnly = partner.name === t.partners[2].name
+                return <article className={`partner-card reveal${isTextOnly ? ' partner-card--text-only' : ''}`} key={partner.name}>{isTextOnly && <span className="partner-card-eyebrow">{t.partnerTextOnlyEyebrow}</span>}{isTextOnly && <span className="partner-card-divider" aria-hidden="true" />}{!isTextOnly && <img src={`/images/partner-${partnerLogos[index]}.webp`} alt="" loading="lazy" />}<div><h3>{partner.name}</h3><p>{partner.role}</p></div></article>
+              })}
             </div>
           </div>
         </section>
