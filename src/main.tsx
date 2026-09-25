@@ -243,8 +243,8 @@ function App() {
             <div className="partners-heading reveal"><p className="eyebrow">05 / {t.partnersEyebrow}</p>{t.partnersTitle && <h2 id="partners-title">{t.partnersTitle}</h2>}</div>
             <div className="partners-cards">
               {t.partners.map((partner, index) => {
-                const isTextOnly = partner.name === t.partners[2].name
-                return <article className={`partner-card reveal${isTextOnly ? ' partner-card--text-only' : ''}`} key={partner.name}>{isTextOnly && <span className="partner-card-eyebrow">{t.partnerTextOnlyEyebrow}</span>}{isTextOnly && <span className="partner-card-divider" aria-hidden="true" />}{!isTextOnly && <img src={`/images/partner-${partnerLogos[index]}.webp`} alt="" loading="lazy" />}<div><h3>{partner.name}</h3><p>{partner.role}</p></div></article>
+                const isTextOnly = index === 2
+                return <article className={`partner-card reveal${isTextOnly ? ' partner-card--text-only' : ''}`} key={partner.name}>{isTextOnly && <span className="partner-card-eyebrow">{t.partnerTextOnlyEyebrow}</span>}{isTextOnly && <span className="partner-card-divider" aria-hidden="true" />}{!isTextOnly && <img src={`/images/partner-${partnerLogos[index]}.webp`} alt="" loading="lazy" />}<div>{partner.showName && <h3>{partner.name}</h3>}<p>{partner.role}</p></div></article>
               })}
             </div>
           </div>
